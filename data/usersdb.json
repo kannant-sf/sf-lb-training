@@ -4,15 +4,28 @@
   },
   "models": {
     "Users": {
+      "1": {
+        "fName": "Kannan",
+        "lName": "T",
+        "email": "kt@kt.co",
+        "no": 2112211,
+        "id": 1
+      },
       "2": {
         "fName": "destroy alderaan",
-        "lName": "Make sure there are no survivors left!",
-        "email": "as@kl.co",
-        "no": 892189892,
         "mName": "asas",
+        "lName": "Great!",
+        "email": "as@kl.co",
+        "no": 12899821,
         "id": 2
       },
-      "3": "{\"fName\":\"play space invaders\",\"lName\":\"Become the very best!\",\"email\":\"as@kl.co\",\"no\":892189892,\"mName\":\"asas\",\"id\":3,\"mname\":\"Dude\"}",
+      "3": {
+        "fName": "Prasanna",
+        "lName": "J",
+        "email": "jpk@kl.co",
+        "no": 72367112,
+        "id": 3
+      },
       "4": {
         "fName": "crush rebel scum",
         "lName": "Every.Last.One.",
@@ -21,8 +34,20 @@
         "mName": "asas",
         "id": 4
       },
-      "5": "{\"fName\":\"Kannan\",\"lName\":\"T\",\"email\":\"kannant92@yahoo.in\",\"no\":9600936102,\"id\":5}",
-      "6": "{\"fName\":\"Kannan\",\"lName\":\"T\",\"email\":\"kannant92@yahoo.in\",\"no\":9600936102,\"id\":6}"
+      "5": {
+        "fName": "Kannan",
+        "lName": "T",
+        "email": "kannant92@yahoo.in",
+        "no": 9600936102,
+        "id": 5
+      },
+      "6": {
+        "fName": "Kannan",
+        "lName": "T",
+        "email": "dummy@yahoo.in",
+        "no": 9600936102,
+        "id": 6
+      }
     }
   }
 }
