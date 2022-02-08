@@ -1,0 +1,28 @@
+{
+  "ids": {
+    "Users": 7
+  },
+  "models": {
+    "Users": {
+      "2": {
+        "fName": "destroy alderaan",
+        "lName": "Make sure there are no survivors left!",
+        "email": "as@kl.co",
+        "no": 892189892,
+        "mName": "asas",
+        "id": 2
+      },
+      "3": "{\"fName\":\"play space invaders\",\"lName\":\"Become the very best!\",\"email\":\"as@kl.co\",\"no\":892189892,\"mName\":\"asas\",\"id\":3,\"mname\":\"Dude\"}",
+      "4": {
+        "fName": "crush rebel scum",
+        "lName": "Every.Last.One.",
+        "email": "as@kl.co",
+        "no": 892189892,
+        "mName": "asas",
+        "id": 4
+      },
+      "5": "{\"fName\":\"Kannan\",\"lName\":\"T\",\"email\":\"kannant92@yahoo.in\",\"no\":9600936102,\"id\":5}",
+      "6": "{\"fName\":\"Kannan\",\"lName\":\"T\",\"email\":\"kannant92@yahoo.in\",\"no\":9600936102,\"id\":6}"
+    }
+  }
+}
