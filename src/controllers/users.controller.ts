@@ -26,11 +26,18 @@ export class UsersController {
     public usersRepository: UsersRepository,
   ) {}
 
-  @post('/users')
-  @response(200, {
-    description: 'Users model instance',
-    content: {'application/json': {schema: getModelSchemaRef(Users)}},
+  @post('/users', {
+    responses: {
+      200: {
+        description: 'Users model instance',
+        content: {'application/json': {schema: getModelSchemaRef(Users)}},
+      },
+    },
   })
+  // @response(200, {
+  //   description: 'Users model instance',
+  //   content: {'application/json': {schema: getModelSchemaRef(Users)}},
+  // })
   async create(
     @requestBody({
       content: {
