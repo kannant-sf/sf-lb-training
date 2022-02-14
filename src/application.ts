@@ -1,16 +1,21 @@
 import {BootMixin} from '@loopback/boot';
-import {ApplicationConfig} from '@loopback/core';
+import {ApplicationConfig, Context} from '@loopback/core';
+import {RepositoryMixin} from '@loopback/repository';
+import {RestApplication} from '@loopback/rest';
 import {
   RestExplorerBindings,
   RestExplorerComponent,
 } from '@loopback/rest-explorer';
-import {RepositoryMixin} from '@loopback/repository';
-import {RestApplication} from '@loopback/rest';
 import {ServiceMixin} from '@loopback/service-proxy';
 import path from 'path';
 import {MySequence} from './sequence';
+require('dotenv').config();
 
 export {ApplicationConfig};
+
+export const nameCTX = new Context();
+
+nameCTX.bind('name').to('Kannan');
 
 export class Lb4TrainingApplication extends BootMixin(
   ServiceMixin(RepositoryMixin(RestApplication)),
@@ -20,6 +25,9 @@ export class Lb4TrainingApplication extends BootMixin(
 
     // Set up the custom sequence
     this.sequence(MySequence);
+    // this.configure(RestBindings)
+    this.bind('meetAt').to(7);
+    // this.bind().toDynamicValue
 
     // Set up default home page
     this.static('/', path.join(__dirname, '../public'));
@@ -35,7 +43,7 @@ export class Lb4TrainingApplication extends BootMixin(
     this.bootOptions = {
       controllers: {
         // Customize ControllerBooter Conventions here
-        dirs: ['controllers'],
+        dirs: ['inHousecontrollers'],
         extensions: ['.controller.js'],
         nested: true,
       },

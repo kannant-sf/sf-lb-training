@@ -1,3 +1,4 @@
+import {inject} from '@loopback/core';
 import {
   Count,
   CountSchema,
@@ -17,6 +18,7 @@ import {
   requestBody,
   response,
 } from '@loopback/rest';
+import {nameCTX} from '..';
 import {Users} from '../models';
 import {UsersRepository} from '../repositories';
 
@@ -24,6 +26,7 @@ export class UsersController {
   constructor(
     @repository(UsersRepository)
     public usersRepository: UsersRepository,
+    @inject('meetAt') private meetTime: number,
   ) {}
 
   @post('/users', {
@@ -76,7 +79,8 @@ export class UsersController {
     },
   })
   async find(@param.filter(Users) filter?: Filter<Users>): Promise<Users[]> {
-    console.log('Inside users');
+    console.log(nameCTX.getSync('name'));
+    console.log('Inside users', {time: this.meetTime});
     return this.usersRepository.find(filter);
   }
 
