@@ -1,6 +1,6 @@
 {
   "ids": {
-    "Users": 8
+    "Users": 11
   },
   "models": {
     "Users": {
@@ -48,7 +48,10 @@
         "no": 9600936102,
         "id": 6
       },
-      "7": "{\"fName\":\"string\",\"mName\":\"string\",\"lName\":\"string\",\"email\":\"string\",\"no\":0,\"additionalProp1\":{},\"id\":7}"
+      "7": "{\"fName\":\"string\",\"mName\":\"string\",\"lName\":\"string\",\"email\":\"string\",\"no\":0,\"additionalProp1\":{},\"id\":7}",
+      "8": "{\"fName\":\"Ajith\",\"mName\":\"\",\"lName\":\"P\",\"email\":\"aji.com\",\"no\":\"123431221\",\"customersId\":1,\"id\":8}",
+      "9": "{\"fName\":\"string\",\"mName\":\"string\",\"lName\":\"string\",\"email\":\"string\",\"no\":\"string\",\"customersId\":1,\"rolesId\":1,\"id\":9}",
+      "10": "{\"fName\":\"string\",\"mName\":\"string\",\"lName\":\"string\",\"email\":\"string\",\"no\":\"string\",\"customersId\":1,\"rolesId\":1,\"id\":10}"
     }
   }
 }

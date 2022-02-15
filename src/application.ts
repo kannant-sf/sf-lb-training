@@ -43,7 +43,7 @@ export class Lb4TrainingApplication extends BootMixin(
     this.bootOptions = {
       controllers: {
         // Customize ControllerBooter Conventions here
-        dirs: ['inHousecontrollers'],
+        dirs: ['controllers'],
         extensions: ['.controller.js'],
         nested: true,
       },

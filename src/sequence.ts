@@ -9,7 +9,6 @@ export class MySequence extends MiddlewareSequence {
     const now = new Date();
     const allowOrigin = process.env.ALLOWED_ORIGIN;
     const referer = request.headers['referer'];
-    console.log({env: process.env.ALLOWED_ORIGIN});
     console.log('Before request', {
       requestedBaseUrl: context.requestedBaseUrl,
       basePath: context.basePath,
@@ -21,10 +20,10 @@ export class MySequence extends MiddlewareSequence {
       startTime: now,
     });
 
-    if (allowOrigin !== referer) {
-      console.log('Inside', {allowOrigin, referer});
-      throw new Error(`You referer is not allowed to go inside`);
-    }
+    // if (allowOrigin !== referer) {
+    //   console.log('Inside', {allowOrigin, referer});
+    //   throw new Error(`You referer is not allowed to go inside`);
+    // }
 
     await super.handle(context);
     console.log('After request', {endTime: new Date()});
