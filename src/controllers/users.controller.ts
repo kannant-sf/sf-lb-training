@@ -1,4 +1,4 @@
-import {inject} from '@loopback/core';
+import {inject, intercept} from '@loopback/core';
 import {
   Count,
   CountSchema,
@@ -15,10 +15,12 @@ import {
   patch,
   post,
   put,
+  Request,
   requestBody,
   response,
+  RestBindings,
 } from '@loopback/rest';
-import {nameCTX} from '..';
+import {authInterceptor} from '../interceptors';
 import {Users} from '../models';
 import {UsersRepository} from '../repositories';
 
@@ -27,6 +29,7 @@ export class UsersController {
     @repository(UsersRepository)
     public usersRepository: UsersRepository,
     @inject('meetAt') private meetTime: number,
+    @inject(RestBindings.Http.REQUEST) private request: Request,
   ) {}
 
   @post('/users', {
@@ -54,6 +57,8 @@ export class UsersController {
     })
     users: Omit<Users, 'id'>,
   ): Promise<Users> {
+    console.log({users});
+    // console.log({body: this.request.body});
     return this.usersRepository.create(users);
   }
 
@@ -66,6 +71,7 @@ export class UsersController {
     return this.usersRepository.count(where);
   }
 
+  @intercept(authInterceptor)
   @get('/users')
   @response(200, {
     description: 'Array of Users model instances',
@@ -79,8 +85,8 @@ export class UsersController {
     },
   })
   async find(@param.filter(Users) filter?: Filter<Users>): Promise<Users[]> {
-    console.log(nameCTX.getSync('name'));
-    console.log('Inside users', {time: this.meetTime});
+    // console.log(nameCTX.getSync('name'));
+    // console.log('Inside users', {time: this.meetTime});
     return this.usersRepository.find(filter);
   }
 

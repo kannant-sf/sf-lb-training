@@ -31,6 +31,10 @@ if (require.main === module) {
         setServersFromRequest: true,
       },
     },
+    parse: {
+      'body-parser#json': {},
+      'body-parser#urlencoded': {params: {extended: true}},
+    },
   };
   main(config).catch(err => {
     console.error('Cannot start the application.', err);

@@ -5,20 +5,10 @@ export interface SequenceHandler {
 }
 export class MySequence extends MiddlewareSequence {
   async handle(context: RequestContext): Promise<void> {
-    const {request} = context;
-    const now = new Date();
-    const allowOrigin = process.env.ALLOWED_ORIGIN;
-    const referer = request.headers['referer'];
-    console.log('Before request', {
-      requestedBaseUrl: context.requestedBaseUrl,
-      basePath: context.basePath,
-      baseUrl: request.baseUrl,
-      userAgent: request.headers['user-agent'],
-      referer: request.headers['referer'],
-      origin: request.headers['origin'],
-      host: request.headers['host'],
-      startTime: now,
-    });
+    // console.log('Before request', {
+    //   requestedBaseUrl: context.requestedBaseUrl,
+    //   basePath: context.basePath,
+    // });
 
     // if (allowOrigin !== referer) {
     //   console.log('Inside', {allowOrigin, referer});
@@ -26,6 +16,5 @@ export class MySequence extends MiddlewareSequence {
     // }
 
     await super.handle(context);
-    console.log('After request', {endTime: new Date()});
   }
 }

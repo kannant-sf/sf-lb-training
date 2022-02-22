@@ -1,14 +1,17 @@
 import {BootMixin} from '@loopback/boot';
 import {ApplicationConfig, Context} from '@loopback/core';
 import {RepositoryMixin} from '@loopback/repository';
-import {RestApplication} from '@loopback/rest';
+import {InvokeMiddlewareOptions, RestApplication} from '@loopback/rest';
 import {
   RestExplorerBindings,
   RestExplorerComponent,
 } from '@loopback/rest-explorer';
 import {ServiceMixin} from '@loopback/service-proxy';
 import path from 'path';
+import winston from 'winston';
+import {logMiddleware} from './middlewares';
 import {MySequence} from './sequence';
+import {logger} from './utils';
 require('dotenv').config();
 
 export {ApplicationConfig};
@@ -23,10 +26,53 @@ export class Lb4TrainingApplication extends BootMixin(
   constructor(options: ApplicationConfig = {}) {
     super(options);
 
+    //
+    // If we're not in production then log to the `console` with the format:
+    // `${info.level}: ${info.message} JSON.stringify({ ...rest }) `
+    //
+    if (process.env.NODE_ENV !== 'production') {
+      logger.add(
+        new winston.transports.Console({
+          format: winston.format.simple(),
+        }),
+      );
+    }
+
     // Set up the custom sequence
+    const middlewareOptions: InvokeMiddlewareOptions = {
+      chain: 'middlewareChain.rest',
+      orderedGroups: [
+        // Please note that middleware is cascading. The `sendResponse` is
+        // added first to invoke downstream middleware to get the result or
+        // catch errors so that it can produce the http response.
+
+        'sendResponse',
+
+        // default
+        'cors',
+        'apiSpec',
+
+        // default
+        'middleware',
+
+        // rest
+        'findRoute',
+
+        // authentication
+        'authentication',
+
+        // rest
+        'parseParams',
+        'invokeMethod',
+      ],
+    };
+    // this.configure(RestBindings.SEQUENCE).to(middlewareOptions);
     this.sequence(MySequence);
+    console.log('After sequence');
+    this.middleware(logMiddleware);
     // this.configure(RestBindings)
     this.bind('meetAt').to(7);
+    // this.bodyParser(JsonBodyParser);
     // this.bind().toDynamicValue
 
     // Set up default home page
