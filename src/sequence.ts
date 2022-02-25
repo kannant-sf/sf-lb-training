@@ -11,7 +11,6 @@ import {
   SequenceHandler,
 } from '@loopback/rest';
 import {AuthenticateFn, AuthenticationBindings} from 'loopback4-authentication';
-import {logMiddleware} from './middlewares';
 import {Users} from './models';
 
 // export interface SequenceHandler {
@@ -50,19 +49,17 @@ export class MySequence implements SequenceHandler {
     try {
       const {request, response} = context;
 
-      const finished = await this.invokeMiddleware(context, {
-        middlewareList: [logMiddleware],
-      });
+      const finished = await this.invokeMiddleware(context);
 
       if (finished) return;
 
       const route = this.findRoute(request);
       const args = await this.parseParams(request, route);
       request.body = args[args.length - 1];
-      // const authUser: AuthUser =
 
-      // console.log({})
-      // await this.authenticateRequest(request);
+      const dummy = await this.authenticateRequest(request);
+
+      console.log({dummy});
       const result = await this.invoke(route, args);
       this.send(response, result);
     } catch (err) {

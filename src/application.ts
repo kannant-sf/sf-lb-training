@@ -1,7 +1,7 @@
 import {BootMixin} from '@loopback/boot';
 import {ApplicationConfig, Context} from '@loopback/core';
 import {RepositoryMixin} from '@loopback/repository';
-import {RestApplication} from '@loopback/rest';
+import {RestApplication, RestTags} from '@loopback/rest';
 import {
   RestExplorerBindings,
   RestExplorerComponent,
@@ -42,7 +42,9 @@ export class Lb4TrainingApplication extends BootMixin(
 
     // this.configure(RestBindings.SEQUENCE).to(middlewareOptions);
     this.sequence(MySequence);
-    this.middleware(logMiddleware);
+    this.middleware(logMiddleware, {
+      chain: RestTags.ACTION_MIDDLEWARE_CHAIN,
+    });
     // this.configure(RestBindings)
     this.bind('meetAt').to(7);
     // this.bodyParser(JsonBodyParser);

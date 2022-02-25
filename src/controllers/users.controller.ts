@@ -1,4 +1,4 @@
-import {inject} from '@loopback/core';
+import {Getter, inject} from '@loopback/core';
 import {
   Count,
   CountSchema,
@@ -20,7 +20,7 @@ import {
   response,
   RestBindings,
 } from '@loopback/rest';
-import {authenticate, STRATEGY} from 'loopback4-authentication';
+import {AuthenticationBindings} from 'loopback4-authentication';
 import {Users} from '../models';
 import {UsersRepository} from '../repositories';
 
@@ -30,6 +30,8 @@ export class UsersController {
     public usersRepository: UsersRepository,
     @inject('meetAt') private meetTime: number,
     @inject(RestBindings.Http.REQUEST) private request: Request,
+    @inject.getter(AuthenticationBindings.CURRENT_USER)
+    private readonly getCurrentUser: Getter<Users>,
   ) {}
 
   @post('/users', {
@@ -72,7 +74,7 @@ export class UsersController {
   }
 
   // @intercept(authInterceptor)
-  @authenticate(STRATEGY.BEARER)
+  // @authenticate(STRATEGY.BEARER)
   @get('/users')
   @response(200, {
     description: 'Array of Users model instances',
@@ -88,6 +90,9 @@ export class UsersController {
   async find(@param.filter(Users) filter?: Filter<Users>): Promise<Users[]> {
     // console.log(nameCTX.getSync('name'));
     // console.log('Inside users', {time: this.meetTime});
+
+    const doa = await this.getCurrentUser();
+    console.log({currentUser: doa});
     return this.usersRepository.find(filter);
   }
 
