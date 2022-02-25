@@ -16,16 +16,20 @@ export const logMiddleware: Middleware = async (middlewareCtx, next) => {
   });
 
   const cookie: string = request.headers['cookie'] || '';
+  console.log({cookie});
 
-  if (!cookie) throw new Error(`No cookie received from headers`);
+  if (cookie) {
+    const userId = cookie.split('=')[1];
 
-  const userId = cookie.split('=')[1];
+    const privateKey = process.env.SECRET_KEY || '';
 
-  const privateKey = process.env.SECRET_KEY || '';
+    const token = jwt.sign({userId}, privateKey);
 
-  const token = jwt.sign({userId}, privateKey);
+    console.log({token});
 
-  request.headers['authorization'] = `Bearer ${token}`;
+    request.headers['authorization'] = `Bearer ${token}`;
+  }
+
   try {
     const result = await next();
     logger.info('Response completion time: %s', new Date().toTimeString());

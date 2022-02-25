@@ -1,4 +1,4 @@
-import {inject, intercept} from '@loopback/core';
+import {inject} from '@loopback/core';
 import {
   Count,
   CountSchema,
@@ -20,7 +20,7 @@ import {
   response,
   RestBindings,
 } from '@loopback/rest';
-import {authInterceptor} from '../interceptors';
+import {authenticate, STRATEGY} from 'loopback4-authentication';
 import {Users} from '../models';
 import {UsersRepository} from '../repositories';
 
@@ -71,7 +71,8 @@ export class UsersController {
     return this.usersRepository.count(where);
   }
 
-  @intercept(authInterceptor)
+  // @intercept(authInterceptor)
+  @authenticate(STRATEGY.BEARER)
   @get('/users')
   @response(200, {
     description: 'Array of Users model instances',
