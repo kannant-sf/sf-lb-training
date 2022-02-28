@@ -1,6 +1,7 @@
 import {inject} from '@loopback/core';
 import {
   FindRoute,
+  HttpErrors,
   InvokeMethod,
   InvokeMiddleware,
   ParseParams,
@@ -11,6 +12,11 @@ import {
   SequenceHandler,
 } from '@loopback/rest';
 import {AuthenticateFn, AuthenticationBindings} from 'loopback4-authentication';
+import {
+  AuthorizationBindings,
+  AuthorizeErrorKeys,
+  AuthorizeFn,
+} from 'loopback4-authorization';
 import {Users} from './models';
 
 // export interface SequenceHandler {
@@ -43,6 +49,8 @@ export class MySequence implements SequenceHandler {
     protected authenticateRequest: AuthenticateFn<Users>,
     @inject(SequenceActions.INVOKE_MIDDLEWARE, {optional: true})
     protected invokeMiddleware: InvokeMiddleware = () => false,
+    @inject(AuthorizationBindings.AUTHORIZE_ACTION)
+    protected checkAuthorisation: AuthorizeFn,
   ) {}
 
   async handle(context: RequestContext) {
@@ -57,9 +65,18 @@ export class MySequence implements SequenceHandler {
       const args = await this.parseParams(request, route);
       request.body = args[args.length - 1];
 
-      const dummy = await this.authenticateRequest(request);
+      const user = await this.authenticateRequest(request);
 
-      console.log({dummy});
+      console.log({user});
+
+      const isAccessAllowed: boolean = await this.checkAuthorisation(
+        user.permissions,
+        request,
+      );
+      // Checking access to route here
+      if (!isAccessAllowed) {
+        throw new HttpErrors.Forbidden(AuthorizeErrorKeys.NotAllowedAccess);
+      }
       const result = await this.invoke(route, args);
       this.send(response, result);
     } catch (err) {

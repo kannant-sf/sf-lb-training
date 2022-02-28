@@ -20,7 +20,12 @@ import {
   response,
   RestBindings,
 } from '@loopback/rest';
-import {AuthenticationBindings} from 'loopback4-authentication';
+import {
+  authenticate,
+  AuthenticationBindings,
+  STRATEGY,
+} from 'loopback4-authentication';
+import {authorize} from 'loopback4-authorization';
 import {Users} from '../models';
 import {UsersRepository} from '../repositories';
 
@@ -74,15 +79,19 @@ export class UsersController {
   }
 
   // @intercept(authInterceptor)
-  // @authenticate(STRATEGY.BEARER)
-  @get('/users')
-  @response(200, {
-    description: 'Array of Users model instances',
-    content: {
-      'application/json': {
-        schema: {
-          type: 'array',
-          items: getModelSchemaRef(Users, {includeRelations: true}),
+  @authenticate(STRATEGY.BEARER)
+  @authorize({permissions: ['viewUsers']})
+  @get('/users', {
+    responses: {
+      200: {
+        description: 'Array of Users model instances',
+        content: {
+          'application/json': {
+            schema: {
+              type: 'array',
+              items: getModelSchemaRef(Users, {includeRelations: true}),
+            },
+          },
         },
       },
     },

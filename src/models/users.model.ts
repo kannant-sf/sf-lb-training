@@ -1,10 +1,11 @@
 import {belongsTo, Entity, model, property} from '@loopback/repository';
 import {IAuthUser} from 'loopback4-authentication';
+import {Permissions} from 'loopback4-authorization';
 import {Customers} from './customers.model';
 import {Roles} from './roles.model';
 
 @model({settings: {strict: false}})
-export class Users extends Entity implements IAuthUser {
+export class Users extends Entity implements IAuthUser, Permissions<string> {
   @property({
     type: 'number',
     id: true,
@@ -25,6 +26,11 @@ export class Users extends Entity implements IAuthUser {
 
   @property({
     type: 'string',
+  })
+  password?: string;
+
+  @property({
+    type: 'string',
     required: true,
   })
   lName: string;
@@ -34,6 +40,12 @@ export class Users extends Entity implements IAuthUser {
     required: true,
   })
   username: string;
+
+  @property({
+    type: 'array',
+    itemType: 'string',
+  })
+  permissions: string[];
 
   @property({
     type: 'string',

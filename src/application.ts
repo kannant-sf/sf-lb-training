@@ -8,6 +8,10 @@ import {
 } from '@loopback/rest-explorer';
 import {ServiceMixin} from '@loopback/service-proxy';
 import {AuthenticationComponent, Strategies} from 'loopback4-authentication';
+import {
+  AuthorizationBindings,
+  AuthorizationComponent,
+} from 'loopback4-authorization';
 import path from 'path';
 import winston from 'winston';
 import {logMiddleware} from './middlewares';
@@ -59,6 +63,10 @@ export class Lb4TrainingApplication extends BootMixin(
     });
     this.component(RestExplorerComponent);
     this.component(AuthenticationComponent);
+    this.bind(AuthorizationBindings.CONFIG).to({
+      allowAlwaysPaths: ['/explorer'],
+    });
+    this.component(AuthorizationComponent);
     // Customize authentication verify handlers
     this.bind(Strategies.Passport.BEARER_TOKEN_VERIFIER).toProvider(
       BearerTokenVerifyProvider,
