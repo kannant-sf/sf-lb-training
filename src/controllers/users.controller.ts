@@ -170,6 +170,8 @@ export class UsersController {
     await this.usersRepository.replaceById(id, users);
   }
 
+  @authenticate(STRATEGY.BEARER)
+  @authorize({permissions: ['viewUsers']})
   @del('/users/{id}')
   @response(204, {
     description: 'Users DELETE success',

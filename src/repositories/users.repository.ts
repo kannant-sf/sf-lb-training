@@ -1,15 +1,12 @@
 import {Getter, inject} from '@loopback/core';
-import {
-  BelongsToAccessor,
-  DefaultCrudRepository,
-  repository,
-} from '@loopback/repository';
+import {BelongsToAccessor, repository} from '@loopback/repository';
+import {SoftCrudRepository} from 'loopback4-soft-delete';
 import {UsersDataSource} from '../datasources';
 import {Customers, Roles, Users, UsersRelations} from '../models';
 import {CustomersRepository} from './customers.repository';
 import {RolesRepository} from './roles.repository';
 
-export class UsersRepository extends DefaultCrudRepository<
+export class UsersRepository extends SoftCrudRepository<
   Users,
   typeof Users.prototype.id,
   UsersRelations

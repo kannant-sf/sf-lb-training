@@ -23,7 +23,10 @@ export const logMiddleware: Middleware = async (middlewareCtx, next) => {
 
     const privateKey = process.env.SECRET_KEY || '';
 
-    const token = jwt.sign({userId, permissions: ['viewUsers']}, privateKey);
+    const token = jwt.sign(
+      {userId, permissions: ['viewUsers'], tenantId: userId},
+      privateKey,
+    );
     request.headers['authorization'] = `Bearer ${token}`;
   }
 

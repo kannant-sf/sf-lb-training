@@ -66,6 +66,7 @@
     "loopback-connector-redis": "^3.0.0",
     "loopback4-authentication": "^6.0.0",
     "loopback4-authorization": "^5.0.0",
+    "loopback4-soft-delete": "^5.0.1",
     "nodemon": "^2.0.15",
     "tslib": "^2.0.0",
     "winston": "^3.6.0"

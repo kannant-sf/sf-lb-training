@@ -1,11 +1,15 @@
-import {belongsTo, Entity, model, property} from '@loopback/repository';
+import {belongsTo, model, property} from '@loopback/repository';
 import {IAuthUser} from 'loopback4-authentication';
 import {Permissions} from 'loopback4-authorization';
+import {SoftDeleteEntity} from 'loopback4-soft-delete';
 import {Customers} from './customers.model';
 import {Roles} from './roles.model';
 
 @model({settings: {strict: false}})
-export class Users extends Entity implements IAuthUser, Permissions<string> {
+export class Users
+  extends SoftDeleteEntity
+  implements IAuthUser, Permissions<string>
+{
   @property({
     type: 'number',
     id: true,
